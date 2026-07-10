@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaushik Dubey | Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --oil: #2D1E17;
+            --judge-gray: #523F31;
+            --roman-coffee: #796254;
+            --pale-oyster: #9D8A7C;
+
+            --bg-deep: #150E09;
+            --ember: #C9A46B;
+            --ember-soft: #E4C9A0;
+
+            --text-main: #F3E9DC;
+            --text-muted: #B9A695;
+
+            --display: 'Archivo Black', sans-serif;
+            --body: 'Space Grotesk', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        html { overflow-x: hidden; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--body);
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* ===== dotted grid backdrop ===== */
+        .dot-grid {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(201,164,107,0.16) 1px, transparent 1px);
+            background-size: 34px 34px;
+            z-index: -3;
+            pointer-events: none;
+        }
+        .haze { position: fixed; border-radius: 50%; filter: blur(140px); z-index: -2; opacity: 0.45; pointer-events: none; }
+        .haze-1 { top: -15%; left: -10%; width: 55vw; height: 55vw; background: rgba(121,98,84,0.35); }
+        .haze-2 { bottom: -15%; right: -10%; width: 60vw; height: 60vw; background: rgba(201,164,107,0.14); }
+
+        /* cursor spotlight (desktop only) */
+        .spotlight {
+            position: fixed; top: 0; left: 0; width: 500px; height: 500px;
+            border-radius: 50%; pointer-events: none; z-index: -1;
+            background: radial-gradient(circle, rgba(201,164,107,0.08), transparent 70%);
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        #smooth-wrapper { position: relative; width: 100%; }
+        #smooth-content { width: 100%; will-change: transform; }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.6rem 4rem;
+            background: linear-gradient(to bottom, rgba(21,14,9,0.9), transparent);
+        }
+        .logo { font-family: var(--display); font-size: 1rem; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.5px; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--ember-soft); }
+        .status-pill {
+            display: flex; align-items: center; gap: 0.6rem;
+            border: 1px solid rgba(201,164,107,0.35);
+            padding: 0.5rem 1rem; border-radius: 40px;
+            font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);
+        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 10px var(--ember); animation: pulse 1.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 6rem 1.5rem 4rem;
+        }
+        .hero-eyebrow { color: var(--ember); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 1.5rem; }
+        .hero-title {
+            font-family: var(--display);
+            font-size: clamp(3rem, 11vw, 8.5rem);
+            line-height: 0.95; letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+        .hero-title .outline {
+            -webkit-text-stroke: 1.5px var(--pale-oyster);
+            color: transparent;
+        }
+        .hero-sub {
+            margin-top: 2rem; max-width: 560px; color: var(--text-muted);
+            font-size: clamp(1rem, 2.2vw, 1.15rem); line-height: 1.8;
+        }
+        .hero-cta-row { margin-top: 2.6rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .btn {
+            font-family: var(--body); font-weight: 600; font-size: 0.9rem;
+            padding: 0.95rem 2rem; border-radius: 40px; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--ember), var(--roman-coffee)); color: var(--bg-deep); }
+        .btn-outline { border: 1px solid rgba(243,233,220,0.25); color: var(--text-main); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(201,164,107,0.25); }
+
+        /* floating tag chips around hero */
+        .floating-chip {
+            position: absolute;
+            border: 1px solid rgba(243,233,220,0.15);
+            background: rgba(82,63,49,0.25);
+            backdrop-filter: blur(6px);
+            padding: 0.6rem 1.1rem; border-radius: 30px;
+            font-size: 0.8rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 0.5rem;
+            will-change: transform;
+        }
+        .floating-chip i { color: var(--ember); }
+        .chip-1 { top: 18%; left: 8%; }
+        .chip-2 { top: 30%; right: 6%; }
+        .chip-3 { bottom: 22%; left: 12%; }
+        .chip-4 { bottom: 14%; right: 10%; }
+
+        /* ===== MARQUEE ===== */
+        .marquee-wrap {
+            overflow: hidden; white-space: nowrap;
+            border-top: 1px solid rgba(243,233,220,0.08);
+            border-bottom: 1px solid rgba(243,233,220,0.08);
+            padding: 1.6rem 0;
+            background: rgba(45,30,23,0.4);
+        }
+        .marquee-track { display: inline-flex; animation: scroll-left 26s linear infinite; }
+        .marquee-track span {
+            font-family: var(--display); font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+            text-transform: uppercase; padding: 0 2rem; color: var(--pale-oyster);
+            display: inline-flex; align-items: center; gap: 2rem;
+        }
+        .marquee-track span i { font-size: 1rem; color: var(--ember); }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ===== SECTION SHELL ===== */
+        .section { padding: 8rem 1.5rem; max-width: 1180px; margin: 0 auto; }
+        .section-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 4rem; }
+        .section-tag { color: var(--ember); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1rem; display: block; }
+        .section-title { font-family: var(--display); font-size: clamp(2.2rem, 5.5vw, 3.6rem); text-transform: uppercase; line-height: 1.05; }
+        .section-count { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* ===== ABOUT ===== */
+        .about-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 4rem; align-items: center; }
+        .about-frame {
+            position: relative; border-radius: 26px; overflow: hidden;
+            border: 1px solid rgba(243,233,220,0.1);
+            aspect-ratio: 4/5;
+            background: linear-gradient(160deg, var(--judge-gray), var(--oil));
+        }
+        .about-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .about-frame::after {
+            content: ''; position: absolute; inset: 0;
+            box-shadow: inset 0 -60px 60px -20px rgba(21,14,9,0.7);
+        }
+        .about-text p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.95; margin-bottom: 1.4rem; }
+        .about-text strong { color: var(--ember-soft); font-weight: 600; }
+
+        /* ===== FOCUS CARDS ===== */
+        .focus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.75rem; }
+        .focus-card {
+            position: relative; padding: 2.6rem 2rem; border-radius: 22px;
+            background: linear-gradient(160deg, rgba(82,63,49,0.4), rgba(21,14,9,0.5));
+            border: 1px solid rgba(243,233,220,0.08);
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease, box-shadow 0.4s ease;
+            overflow: hidden;
+        }
+        .focus-index { position: absolute; top: 1.6rem; right: 1.8rem; font-family: var(--display); font-size: 2.4rem; color: rgba(243,233,220,0.06); }
+        .focus-card i { font-size: 2.2rem; color: var(--ember); margin-bottom: 1.6rem; display: inline-block; }
+        .focus-card h3 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+        .focus-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+        .focus-card:hover { transform: translateY(-8px); border-color: var(--ember); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        /* ===== INSPIRATIONS ===== */
+        .anime-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.75rem; }
+        .anime-card {
+            position: relative; border-radius: 22px; overflow: hidden;
+            aspect-ratio: 3/4;
+            border: 1px solid rgba(243,233,220,0.1);
+            background: var(--judge-gray);
+        }
+        .anime-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .anime-overlay {
+            position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 1.6rem; background: linear-gradient(to top, rgba(21,14,9,0.92), transparent 55%);
+        }
+        .anime-overlay h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+        .anime-overlay p { color: var(--text-muted); font-size: 0.85rem; }
+        .anime-card:hover img { transform: scale(1.08); }
+
+        /* ===== CONNECT ===== */
+        .connect-section { text-align: center; }
+        .connect-title { font-family: var(--display); font-size: clamp(2.4rem, 8vw, 5.5rem); text-transform: uppercase; line-height: 1; margin-bottom: 1.6rem; }
+        .connect-sub { color: var(--text-muted); max-width: 500px; margin: 0 auto 3rem; font-size: 1.05rem; }
+        .social-cluster { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.6rem; }
+        .social-btn {
+            width: 68px; height: 68px; border-radius: 50%;
+            background: rgba(243,233,220,0.03); border: 1px solid rgba(243,233,220,0.12);
+            color: var(--text-main); display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none; position: relative; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .social-btn span { position: relative; z-index: 2; pointer-events: none; }
+        .social-btn::before {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            background: linear-gradient(135deg, var(--ember), var(--roman-coffee));
+            border-radius: 50%; transform: translate(-50%,-50%);
+            transition: width 0.5s cubic-bezier(0.16,1,0.3,1), height 0.5s cubic-bezier(0.16,1,0.3,1);
+            z-index: 1;
+        }
+        footer { text-align: center; padding: 2.5rem 1.5rem 3rem; color: var(--text-muted); font-size: 0.8rem; }
+
+        @media (hover: hover) {
+            .social-btn:hover::before { width: 150%; height: 150%; }
+            .social-btn:hover { color: var(--bg-deep); border-color: transparent; box-shadow: 0 0 30px var(--ember); }
+        }
+        @media (hover: none) {
+            .social-btn:active::before { width: 150%; height: 150%; }
+            .social-btn:active { color: var(--bg-deep); }
+            .focus-card:active { transform: scale(0.98); }
+        }
+
+        .gsap-reveal { opacity: 0; visibility: hidden; will-change: transform, opacity; }
+
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .floating-chip { display: none; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .nav-links { display: none; }
+            .section { padding: 5.5rem 1.5rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+        }
+
+        /* ===== PRELOADER ===== */
+        .preloader {
+            position: fixed; inset: 0; z-index: 999;
+            background: var(--bg-deep);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 1.4rem;
+        }
+        .preloader-label { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--ember); }
+        .preloader-count {
+            font-family: var(--display); font-size: clamp(3rem, 10vw, 6rem);
+            color: var(--text-main); letter-spacing: -2px; line-height: 1;
+        }
+        .preloader-bar-track { width: min(320px, 60vw); height: 2px; background: rgba(243,233,220,0.12); border-radius: 2px; overflow: hidden; }
+        .preloader-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--ember), var(--roman-coffee)); }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+        .cursor-dot { width: 7px; height: 7px; background: var(--ember); }
+        .cursor-ring {
+            width: 34px; height: 34px; border: 1px solid rgba(201,164,107,0.45);
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        }
+        .cursor-ring.cursor-hover { width: 62px; height: 62px; border-color: var(--ember-soft); background: rgba(201,164,107,0.08); }
+        @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--ember), var(--roman-coffee));
+            z-index: 200; will-change: width;
+        }
+
+        /* ===== ORBIT BADGE (rotating circular text) ===== */
+        .orbit-badge {
+            position: absolute; top: 6%; right: 4%;
+            width: clamp(110px, 12vw, 150px); height: clamp(110px, 12vw, 150px);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .orbit-badge svg { width: 100%; height: 100%; animation: spin-slow 20s linear infinite; }
+        .orbit-badge-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            color: var(--ember); font-size: 1.3rem;
+        }
+        @keyframes spin-slow { to { transform: rotate(360deg); } }
+        @media (max-width: 900px) { .orbit-badge { display: none; } }
+
+        /* ===== WORD-SPLIT TITLE REVEAL ===== */
+        .word-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; }
+        .word { display: inline-block; transform: translateY(115%); will-change: transform; }
+
+        /* ===== SCROLL-DRIVEN IMAGE REVEAL ===== */
+        .reveal-clip { clip-path: inset(0 0 100% 0); }
+
+        /* ===== SECOND (REVERSE) MARQUEE ROW ===== */
+        .marquee-track.reverse { animation: scroll-right 22s linear infinite; }
+        @keyframes scroll-right { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        .marquee-wrap.dim { opacity: 0.55; }
+    </style>
+</head>
+<body>
+
+    <div class="preloader" id="preloader">
+        <div class="preloader-label">Loading Portfolio</div>
+        <div class="preloader-count" id="preloaderCount">0%</div>
+        <div class="preloader-bar-track"><div class="preloader-bar-fill" id="preloaderBar"></div></div>
+    </div>
+
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="dot-grid"></div>
+    <div class="haze haze-1"></div>
+    <div class="haze haze-2"></div>
+    <div class="spotlight" id="spotlight"></div>
+
+    <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+    <nav>
+        <div class="logo">KD.</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#focus">Focus</a></li>
+            <li><a href="#anime">Inspirations</a></li>
+            <li><a href="#connect">Connect</a></li>
+        </ul>
+        <div class="status-pill"><span class="status-dot"></span> Open to opportunities</div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="floating-chip chip-1 gsap-reveal"><i class="fas fa-microchip"></i> System Programming</div>
+        <div class="floating-chip chip-2 gsap-reveal"><i class="fas fa-desktop"></i> Hardware</div>
+        <div class="floating-chip chip-3 gsap-reveal"><i class="fas fa-camera-retro"></i> Cinematography</div>
+        <div class="floating-chip chip-4 gsap-reveal"><i class="fas fa-car"></i> Automotive</div>
+
+        <div class="orbit-badge gsap-reveal">
+            <svg viewBox="0 0 200 200">
+                <defs><path id="circlePath" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
+                <text font-size="12.5" letter-spacing="3" style="fill: var(--pale-oyster);">
+                    <textPath href="#circlePath">SCROLL • EXPLORE • BUILD • CREATE •</textPath>
+                </text>
+            </svg>
+            <div class="orbit-badge-center"><i class="fas fa-arrow-down"></i></div>
+        </div>
+
+        <div class="hero-eyebrow gsap-reveal">Student • Developer • Creator</div>
+        <h1 class="hero-title gsap-reveal">Kaushik<br><span class="outline">Dubey</span></h1>
+        <p class="hero-sub gsap-reveal">B.Tech CSE student exploring system-level programming, hardware tech, and visual storytelling.</p>
+        <div class="hero-cta-row gsap-reveal">
+            <a href="#connect" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get in touch</a>
+            <a href="#about" class="btn btn-outline">View my story</a>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+        <div class="marquee-track" id="marquee">
+            <span>
+                <span><i class="fas fa-star"></i> Kernel Development</span>
+                <span><i class="fas fa-star"></i> Hardware Architecture</span>
+                <span><i class="fas fa-star"></i> Photography</span>
+                <span><i class="fas fa-star"></i> Videography</span>
+                <span><i class="fas fa-star"></i> Automotive Engineering</span>
+                <span><i class="fas fa-star"></i> Cinematography</span>
+            </span>
+            <span>
+                <span><i class="fas fa-star"></i> Kernel Development</span>
+                <span><i class="fas fa-star"></i> Hardware Architecture</span>
+                <span><i class="fas fa-star"></i> Photography</span>
+                <span><i class="fas fa-star"></i> Videography</span>
+                <span><i class="fas fa-star"></i> Automotive Engineering</span>
+                <span><i class="fas fa-star"></i> Cinematography</span>
+            </span>
+        </div>
+    </div>
+    <div class="marquee-wrap dim">
+        <div class="marquee-track reverse">
+            <span>
+                <span><i class="fas fa-star"></i> System Programmer</span>
+                <span><i class="fas fa-star"></i> Kernel Enthusiast</span>
+                <span><i class="fas fa-star"></i> Filmmaker</span>
+                <span><i class="fas fa-star"></i> Car Nerd</span>
+                <span><i class="fas fa-star"></i> Anime Fan</span>
+            </span>
+            <span>
+                <span><i class="fas fa-star"></i> System Programmer</span>
+                <span><i class="fas fa-star"></i> Kernel Enthusiast</span>
+                <span><i class="fas fa-star"></i> Filmmaker</span>
+                <span><i class="fas fa-star"></i> Car Nerd</span>
+                <span><i class="fas fa-star"></i> Anime Fan</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+        <div class="about-grid">
+            <div class="about-frame gsap-reveal reveal-clip hover-3d">
+                <img src="profile.jpg" alt="Kaushik Dubey">
+            </div>
+            <div class="about-text">
+                <span class="section-tag gsap-reveal">A space to learn and grow</span>
+                <h2 class="section-title split-title gsap-reveal" style="margin-bottom: 2rem;">About Me</h2>
+                <p class="gsap-reveal">I am currently pursuing a Bachelor of Technology in Computer Science and Engineering at Chandigarh University, Uttar Pradesh campus.</p>
+                <p class="gsap-reveal">I am deeply passionate about computers and coding, with a strong interest in <strong>system-level programming</strong>. My long-term aspiration is to become a kernel developer, while also exploring hardware technologies such as chips and advanced PC components.</p>
+                <p class="gsap-reveal">Beyond tech, I am drawn to <strong>photography, videography, and cinematography</strong> to tell stories visually. I also love automotive engineering, blending my love for mechanics and raw performance of cars and bikes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOCUS -->
+    <section id="focus" class="section">
+        <div class="section-head">
+            <div>
+                <span class="section-tag gsap-reveal">What drives me</span>
+                <h2 class="section-title split-title gsap-reveal">Core Focus</h2>
+            </div>
+            <span class="section-count gsap-reveal">03 Areas</span>
+        </div>
+        <div class="focus-grid">
+            <div class="focus-card gsap-reveal hover-3d">
+                <span class="focus-index">01</span>
+                <i class="fas fa-microchip"></i>
+                <h3>System Dev</h3>
+                <p>Diving into low-level code, OS internals, and kernel development.</p>
+            </div>
+            <div class="focus-card gsap-reveal hover-3d">
+                <span class="focus-index">02</span>
+                <i class="fas fa-desktop"></i>
+                <h3>Hardware</h3>
+                <p>Architecture, microchips, GPUs, and custom PC builds.</p>
+            </div>
+            <div class="focus-card gsap-reveal hover-3d">
+                <span class="focus-index">03</span>
+                <i class="fas fa-camera-retro"></i>
+                <h3>Visual Arts</h3>
+                <p>Cinematography, videography, and photography.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSPIRATIONS -->
+    <section id="anime" class="section">
+        <div class="section-head">
+            <div>
+                <span class="section-tag gsap-reveal">Inspirations</span>
+                <h2 class="section-title split-title gsap-reveal">Top Anime</h2>
+            </div>
+            <span class="section-count gsap-reveal">03 Picks</span>
+        </div>
+        <div class="anime-grid">
+            <div class="anime-card gsap-reveal hover-3d reveal-clip">
+                <img src="aot.jpg" alt="Attack on Titan">
+                <div class="anime-overlay">
+                    <h3>Attack on Titan</h3>
+                    <p>Masterpiece storytelling & intense action.</p>
+                </div>
+            </div>
+            <div class="anime-card gsap-reveal hover-3d reveal-clip">
+                <img src="db.jpg" alt="Dragon Ball">
+                <div class="anime-overlay">
+                    <h3>Dragon Ball</h3>
+                    <p>The legendary classic of the shonen genre.</p>
+                </div>
+            </div>
+            <div class="anime-card gsap-reveal hover-3d reveal-clip">
+                <img src="ds.jpg" alt="Demon Slayer">
+                <div class="anime-overlay">
+                    <h3>Demon Slayer</h3>
+                    <p>Breathtaking visual experience and choreography.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section id="connect" class="section connect-section">
+        <span class="section-tag gsap-reveal">Let's talk</span>
+        <h2 class="connect-title split-title gsap-reveal">Expand your impact.</h2>
+        <p class="connect-sub gsap-reveal">Let's discuss code, hardware, anime, or camera gear.</p>
+        <div class="social-cluster gsap-reveal">
+            <a href="https://github.com/zenetsu022-source" target="_blank" class="social-btn magnetic-btn"><span><i class="fab fa-github"></i></span></a>
+            <a href="https://www.linkedin.com/in/kaushik-dubey-171a82237" target="_blank" class="social-btn magnetic-btn"><span><i class="fab fa-linkedin-in"></i></span></a>
+            <a href="https://www.youtube.com/@gw_mercy" target="_blank" class="social-btn magnetic-btn"><span><i class="fab fa-youtube"></i></span></a>
+            <a href="https://www.instagram.com/zenetsu022/" target="_blank" class="social-btn magnetic-btn"><span><i class="fab fa-instagram"></i></span></a>
+        </div>
+    </section>
+
+    <footer>© 2026 Kaushik Dubey. Built with curiosity.</footer>
+
+    </div><!-- /#smooth-content -->
+    </div><!-- /#smooth-wrapper -->
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ===== PRELOADER ===== */
+        const preloader = document.getElementById('preloader');
+        const preloaderCount = document.getElementById('preloaderCount');
+        const preloaderBar = document.getElementById('preloaderBar');
+        const counter = { val: 0 };
+        gsap.to(counter, {
+            val: 100, duration: 1.6, ease: "power2.inOut",
+            onUpdate: () => {
+                const v = Math.round(counter.val);
+                preloaderCount.textContent = v + '%';
+                preloaderBar.style.width = v + '%';
+            },
+            onComplete: () => {
+                gsap.to(preloader, {
+                    yPercent: -100, duration: 1, ease: "expo.inOut", delay: 0.15,
+                    onComplete: () => { preloader.style.display = 'none'; ScrollTrigger.refresh(); }
+                });
+            }
+        });
+
+        /* ===== CUSTOM CURSOR ===== */
+        if (window.matchMedia("(hover: hover)").matches) {
+            const cursorDot = document.getElementById('cursorDot');
+            const cursorRing = document.getElementById('cursorRing');
+            let ringX = 0, ringY = 0;
+            window.addEventListener('mousemove', (e) => {
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+                gsap.to(cursorRing, { left: e.clientX, top: e.clientY, duration: 0.35, ease: "power3.out" });
+            });
+            document.querySelectorAll('a, button, .hover-3d, .magnetic-btn').forEach(el => {
+                el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-hover'));
+            });
+        }
+
+        /* ===== SCROLL PROGRESS BAR ===== */
+        const scrollProgress = document.getElementById('scrollProgress');
+        function updateProgress() {
+            const scrollable = document.body.scrollHeight - window.innerHeight;
+            const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+            scrollProgress.style.width = pct + '%';
+            requestAnimationFrame(updateProgress);
+        }
+        requestAnimationFrame(updateProgress);
+
+        /* ===== WORD-SPLIT TITLE REVEAL ===== */
+        document.querySelectorAll('.split-title').forEach(title => {
+            const words = title.textContent.trim().split(/\s+/);
+            title.innerHTML = words.map(w => `<span class="word-mask"><span class="word">${w}</span></span>`).join(' ');
+            gsap.to(title.querySelectorAll('.word'), {
+                y: 0, duration: 1, stagger: 0.06, ease: "expo.out",
+                scrollTrigger: { trigger: title, start: "top 88%", toggleActions: "play none none reverse" }
+            });
+        });
+
+        /* ===== 3D TILT ON CARDS / FRAMES ===== */
+        if (window.matchMedia("(hover: hover)").matches) {
+            document.querySelectorAll('.hover-3d').forEach(el => {
+                el.style.transformStyle = 'preserve-3d';
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const xPct = ((e.clientX - rect.left) / rect.width) - 0.5;
+                    const yPct = ((e.clientY - rect.top) / rect.height) - 0.5;
+                    gsap.to(el, {
+                        rotationY: xPct * 14, rotationX: -yPct * 14,
+                        transformPerspective: 900, ease: "power3.out", duration: 0.5
+                    });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(el, { rotationY: 0, rotationX: 0, ease: "elastic.out(1, 0.5)", duration: 1.1 });
+                });
+            });
+        }
+
+        /* ===== SCROLL-DRIVEN IMAGE WIPE REVEAL ===== */
+        document.querySelectorAll('.reveal-clip').forEach(el => {
+            gsap.fromTo(el,
+                { clipPath: "inset(0 0 100% 0)" },
+                {
+                    clipPath: "inset(0 0 0% 0)", duration: 1.3, ease: "expo.inOut",
+                    scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none reverse" }
+                }
+            );
+        });
+
+        /* ===== Smooth inertia scroll ===== */
+        const wrapper = document.getElementById('smooth-wrapper');
+        const content = document.getElementById('smooth-content');
+        let currentY = 0, targetY = 0;
+        const ease = 0.09;
+
+        function setBodyHeight() { document.body.style.height = content.getBoundingClientRect().height + 'px'; }
+
+        function smoothScroll() {
+            targetY = window.scrollY || window.pageYOffset;
+            currentY += (targetY - currentY) * ease;
+            if (Math.abs(targetY - currentY) < 0.05) currentY = targetY;
+            content.style.transform = `translate3d(0, ${-currentY}px, 0)`;
+            ScrollTrigger.update();
+            requestAnimationFrame(smoothScroll);
+        }
+
+        if (!prefersReduced) {
+            wrapper.style.position = 'fixed';
+            wrapper.style.top = '0';
+            wrapper.style.left = '0';
+            wrapper.style.width = '100%';
+            wrapper.style.overflow = 'hidden';
+            setBodyHeight();
+            requestAnimationFrame(smoothScroll);
+            window.addEventListener('resize', setBodyHeight);
+            new ResizeObserver(setBodyHeight).observe(content);
+
+            ScrollTrigger.scrollerProxy(document.body, {
+                scrollTop(value) { if (arguments.length) window.scrollTo(0, value); return window.scrollY; },
+                getBoundingClientRect() { return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }; }
+            });
+        }
+
+        /* ===== Cursor spotlight ===== */
+        if (window.matchMedia("(hover: hover)").matches) {
+            const spotlight = document.getElementById('spotlight');
+            window.addEventListener('mousemove', (e) => {
+                gsap.to(spotlight, { x: e.clientX, y: e.clientY, duration: 0.6, ease: "power3.out" });
+            });
+        }
+
+        /* ===== Reveal animations ===== */
+        gsap.fromTo(".hero .gsap-reveal",
+            { y: 50, scale: 0.96, opacity: 0, autoAlpha: 0 },
+            { y: 0, scale: 1, opacity: 1, autoAlpha: 1, duration: 1.3, stagger: 0.1, ease: "expo.out" }
+        );
+
+        gsap.utils.toArray('.section').forEach(section => {
+            const elements = section.querySelectorAll('.gsap-reveal');
+            gsap.fromTo(elements,
+                { y: 70, scale: 0.96, opacity: 0, autoAlpha: 0 },
+                {
+                    y: 0, scale: 1, opacity: 1, autoAlpha: 1,
+                    duration: 1.1, stagger: 0.1, ease: "expo.out",
+                    scrollTrigger: { trigger: section, start: "top 82%", toggleActions: "play none none reverse" }
+                }
+            );
+        });
+
+        /* ===== Floating chip drift ===== */
+        gsap.utils.toArray('.floating-chip').forEach((chip, i) => {
+            gsap.to(chip, {
+                y: i % 2 === 0 ? -16 : 16,
+                duration: 3 + i * 0.4,
+                repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+        });
+
+        /* ===== Parallax haze ===== */
+        gsap.to(".haze-1", { y: "-8%", x: "4%", ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.8 } });
+        gsap.to(".haze-2", { y: "8%", x: "-4%", ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.8 } });
+
+        /* ===== Magnetic social buttons ===== */
+        if (window.matchMedia("(hover: hover)").matches) {
+            document.querySelectorAll('.magnetic-btn').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) - (rect.width / 2);
+                    const y = (e.clientY - rect.top) - (rect.height / 2);
+                    gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power3.out" });
+                    gsap.to(btn.querySelector('span'), { x: x * 0.15, y: y * 0.15, duration: 0.4, ease: "power3.out" });
+                });
+                btn.addEventListener('mouseleave', () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" });
+                    gsap.to(btn.querySelector('span'), { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" });
+                });
+            });
+        }
+
+        /* ===== Fix in-page anchor links (nav + hero CTAs) =====
+           Native #hash jumps don't work here because the scroll illusion
+           is done with a fixed wrapper + CSS transform instead of real
+           document scrolling. So we intercept clicks, work out the
+           element's true offset inside #smooth-content, and hand that
+           to window.scrollTo — the existing RAF loop then glides there. */
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const targetId = link.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                e.preventDefault();
+
+                const rect = target.getBoundingClientRect();
+                const trueOffset = rect.top + currentY; // undo current transform to get real offset
+                const navOffset = 90; // keep section heading clear of the fixed nav
+                const destination = Math.max(0, trueOffset - navOffset);
+
+                if (prefersReduced) {
+                    window.scrollTo({ top: destination, behavior: 'smooth' });
+                } else {
+                    window.scrollTo(0, destination);
+                }
+            });
+        });
+
+        ScrollTrigger.refresh();
+    </script>
+
+</body>
+</html>
