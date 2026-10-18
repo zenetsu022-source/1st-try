@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="350" viewBox="0 0 1200 350" role="img" aria-labelledby="title desc">
+<title id="title">Kaushik Dubey — developer profile</title>
+<desc id="desc">Dark charcoal and bronze GitHub banner with the words BUILD. EXPLORE. CREATE.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#130F0C"/><stop offset="0.65" stop-color="#241912"/><stop offset="1" stop-color="#0F0E0E"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#E6C494"/><stop offset="1" stop-color="#AE784D"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#B77C46" stop-opacity=".22"/><stop offset="1" stop-color="#B77C46" stop-opacity="0"/></radialGradient>
+<pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#D4AA75" opacity=".13"/></pattern>
+</defs>
+<rect width="1200" height="350" rx="22" fill="url(#bg)"/>
+<rect width="1200" height="350" rx="22" fill="url(#dots)"/>
+<ellipse cx="970" cy="170" rx="355" ry="270" fill="url(#glow)"/>
+<circle cx="1085" cy="180" r="146" fill="none" stroke="#BE9563" stroke-opacity=".23"/>
+<circle cx="1085" cy="180" r="105" fill="none" stroke="#BE9563" stroke-opacity=".18"/>
+<circle cx="1085" cy="180" r="64" fill="none" stroke="#BE9563" stroke-opacity=".18"/>
+<path d="M-20 305 L1220 305" stroke="#C99F70" stroke-opacity=".25"/>
+<rect x="68" y="58" width="6" height="21" rx="2" fill="#D1A773"/>
+<text x="91" y="75" font-family="Arial,sans-serif" font-size="19" letter-spacing="5" fill="#C9A46B">DEVELOPER  /  CREATOR</text>
+<text x="66" y="168" font-family="Arial,sans-serif" font-weight="800" font-size="65" letter-spacing="3" fill="#F3E9DC">KAUSHIK DUBEY</text>
+<rect x="69" y="190" width="98" height="3" rx="1" fill="url(#gold)"/>
+<text x="69" y="232" font-family="Arial,sans-serif" font-size="22" fill="#D4BEA4">Computer Science  •  Systems  •  Storytelling</text>
+<text x="69" y="328" font-family="Arial,sans-serif" font-size="15" letter-spacing="5" fill="#BE9976">BUILD. EXPLORE. CREATE.</text>
+<path d="M1000 125 l46 28 v54 l-46 28 -46-28 v-54z" fill="none" stroke="#CDA270" stroke-opacity=".65" stroke-width="2"/>
+<path d="M986 164 l-16 16 16 16 M1014 164 l16 16-16 16 M1008 158 l-17 44" fill="none" stroke="#E1BC89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
