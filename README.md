@@ -52,6 +52,10 @@ Outside the terminal, I explore **photography, filmmaking, and visual storytelli
 **[Personal Portfolio — 1st-try](https://github.com/zenetsu022-source/1st-try)**  
 An interactive portfolio combining web development, motion, and a cinematic aesthetic.
 
+### /focus_city
+
+**[Focus City dashboard source](./focus-dashboard)** — React + TypeScript 3D focus tracker with a 2D heatmap and a custom dark/bronze landing page. Demo sessions are sample data.
+
 ### /github_activity
 
 <div align="center">
